@@ -1,0 +1,6 @@
+# 在这里添加你自己的 Shadowrocket 规则（[Rule] 段格式，每行一条完整规则）。
+# 这些规则会被插入到 Shadowrocket.conf [Rule] 段的最顶部，优先级高于上游所有规则。
+# 示例（去掉行首 # 即可生效）：
+# DOMAIN-SUFFIX,example.com,DIRECT
+# DOMAIN-KEYWORD,github,🚀 节点选择
+# RULE-SET,https://raw.githubusercontent.com/codewings/My-Shadowrocket-Rules/main/MyExtra.list,DIRECT

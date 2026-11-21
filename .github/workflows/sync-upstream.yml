@@ -1,0 +1,48 @@
+name: Sync upstream & apply custom rules
+
+on:
+  schedule:
+    # Every 4 hours (UTC). GitHub may delay scheduled runs by a few minutes.
+    - cron: "0 */4 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Fetch upstream
+        run: |
+          git remote add upstream https://github.com/LingJingMaster/Shadowrocket-Rules.git
+          git fetch upstream main
+          echo "UPSTREAM_SHA=$(git rev-parse upstream/main)" >> "$GITHUB_ENV"
+
+      - name: Sync files from upstream
+        run: bash scripts/sync-upstream.sh upstream/main
+
+      - name: Apply custom rules
+        run: bash scripts/apply-custom-rules.sh
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Already in sync with upstream ${UPSTREAM_SHA:0:7}; nothing to commit."
+          else
+            git commit -m "chore(sync): upstream LingJingMaster/Shadowrocket-Rules@${UPSTREAM_SHA:0:7} + apply custom rules"
+            git push
+          fi
