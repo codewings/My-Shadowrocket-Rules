@@ -4,6 +4,12 @@ on:
   schedule:
     # Every 4 hours (UTC). GitHub may delay scheduled runs by a few minutes.
     - cron: "0 */4 * * *"
+  # Regenerate rule files immediately when custom rules change.
+  # (Bot pushes use GITHUB_TOKEN and never re-trigger workflows, so no loop.)
+  push:
+    branches: [main]
+    paths:
+      - "custom/**"
   workflow_dispatch: {}
 
 permissions:
