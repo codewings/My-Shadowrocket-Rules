@@ -1,6 +1,6 @@
 # 自定义规则：插入 Shadowrocket.conf [Rule] 段最顶部，优先级高于上游（用法见 custom/README.md）
 DOMAIN-SUFFIX,device-link.cindy.app,DIRECT
-DOMAIN-SUFFIX,zcode.z.ai,DIRECT
+DOMAIN-SUFFIX,zcode.ai,DIRECT
 DOMAIN-SUFFIX,bigmodel.cn,DIRECT
 DOMAIN-SUFFIX,appstorrent.ru,DIRECT
 DOMAIN-SUFFIX,kimi.com,DIRECT
